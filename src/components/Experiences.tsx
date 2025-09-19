@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import BookingModal from './BookingModal';
 import handicraftsImage from '@/assets/handicrafts.jpg';
 import homestaysImage from '@/assets/homestays.jpg';
 import villageLifeImage from '@/assets/village-life.jpg';
 import foodImage from '@/assets/food.jpg';
 
 const Experiences = () => {
+  const [bookingModal, setBookingModal] = useState<{
+    isOpen: boolean;
+    experience?: typeof experiences[0];
+  }>({ isOpen: false });
   const experiences = [
     {
       title: 'Traditional Handicrafts',
@@ -73,19 +79,37 @@ const Experiences = () => {
                   {experience.description}
                 </p>
                 
-                <ul className="space-y-2">
-                  {experience.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-sm text-muted-foreground">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full mr-3"></div>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                 <ul className="space-y-2 mb-4">
+                   {experience.features.map((feature, idx) => (
+                     <li key={idx} className="flex items-center text-sm text-muted-foreground">
+                       <div className="w-1.5 h-1.5 bg-primary rounded-full mr-3"></div>
+                       {feature}
+                     </li>
+                   ))}
+                 </ul>
+                 <Button 
+                   onClick={() => setBookingModal({ 
+                     isOpen: true, 
+                     experience 
+                   })}
+                   className="w-full"
+                 >
+                   Book Experience
+                 </Button>
               </CardContent>
             </Card>
           ))}
         </div>
       </div>
+      
+      <BookingModal
+        isOpen={bookingModal.isOpen}
+        onClose={() => setBookingModal({ isOpen: false })}
+        experienceId={bookingModal.experience?.title}
+        title={bookingModal.experience?.title || ''}
+        price={2500}
+        type="experience"
+      />
     </section>
   );
 };

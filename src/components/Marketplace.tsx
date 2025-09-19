@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import BookingModal from './BookingModal';
 import handicraftsImage from '@/assets/handicrafts.jpg';
 import ecoStaysImage from '@/assets/eco-stays.jpg';
 import localToursImage from '@/assets/local-tours.jpg';
 
 const Marketplace = () => {
+  const [bookingModal, setBookingModal] = useState<{
+    isOpen: boolean;
+    category?: typeof categories[0];
+  }>({ isOpen: false });
   const categories = [
     {
       title: 'Traditional Handicrafts',
@@ -96,6 +101,15 @@ const Marketplace = () => {
           </div>
         </div>
       </div>
+      
+      <BookingModal
+        isOpen={bookingModal.isOpen}
+        onClose={() => setBookingModal({ isOpen: false })}
+        marketplaceItemId={bookingModal.category?.title}
+        title={bookingModal.category?.title || ''}
+        price={bookingModal.category?.title.includes('Homestays') ? 1500 : 500}
+        type="marketplace"
+      />
     </section>
   );
 };
