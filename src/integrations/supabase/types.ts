@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit: {
+        Row: {
+          action: string | null
+          admin_id: string | null
+          created_at: string | null
+          id: number
+          metadata: Json | null
+          object_id: string | null
+          object_type: string | null
+        }
+        Insert: {
+          action?: string | null
+          admin_id?: string | null
+          created_at?: string | null
+          id?: number
+          metadata?: Json | null
+          object_id?: string | null
+          object_type?: string | null
+        }
+        Update: {
+          action?: string | null
+          admin_id?: string | null
+          created_at?: string | null
+          id?: number
+          metadata?: Json | null
+          object_id?: string | null
+          object_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_audit_admin_id_fkey"
+            columns: ["admin_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       analytics_events: {
         Row: {
           booking_id: string | null
@@ -171,6 +209,50 @@ export type Database = {
           },
         ]
       }
+      cms_texts: {
+        Row: {
+          key: string
+          last_updated: string | null
+          value: string | null
+        }
+        Insert: {
+          key: string
+          last_updated?: string | null
+          value?: string | null
+        }
+        Update: {
+          key?: string
+          last_updated?: string | null
+          value?: string | null
+        }
+        Relationships: []
+      }
+      eco_points_balance: {
+        Row: {
+          last_updated: string | null
+          total_points: number | null
+          user_id: string
+        }
+        Insert: {
+          last_updated?: string | null
+          total_points?: number | null
+          user_id: string
+        }
+        Update: {
+          last_updated?: string | null
+          total_points?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "eco_points_balance_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       eco_points_config: {
         Row: {
           earn_multiplier: number | null
@@ -200,6 +282,41 @@ export type Database = {
           {
             foreignKeyName: "eco_points_config_updated_by_fkey"
             columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      eco_points_transactions: {
+        Row: {
+          created_at: string | null
+          id: string
+          points: number | null
+          reference: string | null
+          tx_type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          points?: number | null
+          reference?: string | null
+          tx_type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          points?: number | null
+          reference?: string | null
+          tx_type?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "eco_points_transactions_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -365,6 +482,97 @@ export type Database = {
           },
         ]
       }
+      media: {
+        Row: {
+          bucket: string | null
+          created_at: string | null
+          id: string
+          meta: Json | null
+          path: string | null
+          uploaded_by: string | null
+          url: string | null
+        }
+        Insert: {
+          bucket?: string | null
+          created_at?: string | null
+          id?: string
+          meta?: Json | null
+          path?: string | null
+          uploaded_by?: string | null
+          url?: string | null
+        }
+        Update: {
+          bucket?: string | null
+          created_at?: string | null
+          id?: string
+          meta?: Json | null
+          path?: string | null
+          uploaded_by?: string | null
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          price: number
+          provider_id: string | null
+          sku: string | null
+          stock: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          price: number
+          provider_id?: string | null
+          sku?: string | null
+          stock?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          price?: number
+          provider_id?: string | null
+          sku?: string | null
+          stock?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string | null
@@ -374,6 +582,7 @@ export type Database = {
           id: string
           is_active: boolean | null
           phone: string | null
+          provider_id: string | null
           role: Database["public"]["Enums"]["user_role"] | null
           updated_at: string | null
         }
@@ -385,6 +594,7 @@ export type Database = {
           id: string
           is_active?: boolean | null
           phone?: string | null
+          provider_id?: string | null
           role?: Database["public"]["Enums"]["user_role"] | null
           updated_at?: string | null
         }
@@ -396,10 +606,97 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           phone?: string | null
+          provider_id?: string | null
           role?: Database["public"]["Enums"]["user_role"] | null
           updated_at?: string | null
         }
         Relationships: []
+      }
+      providers: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          owner_profile_id: string | null
+          updated_at: string | null
+          verification_proof: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          owner_profile_id?: string | null
+          updated_at?: string | null
+          verification_proof?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          owner_profile_id?: string | null
+          updated_at?: string | null
+          verification_proof?: string | null
+          verified?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "providers_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          comment: string | null
+          created_at: string | null
+          experience_id: string | null
+          id: string
+          rating: number | null
+          sentiment: string | null
+          user_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string | null
+          experience_id?: string | null
+          id?: string
+          rating?: number | null
+          sentiment?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string | null
+          experience_id?: string | null
+          id?: string
+          rating?: number | null
+          sentiment?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       site_content: {
         Row: {
