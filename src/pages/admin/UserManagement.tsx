@@ -110,7 +110,7 @@ const UserManagement = () => {
     }
   };
 
-  const updateUserRole = async (userId: string, newRole: string) => {
+  const updateUserRole = async (userId: string, newRole: 'admin' | 'user') => {
     try {
       const { error } = await supabase
         .from('profiles')
@@ -338,15 +338,6 @@ const UserManagement = () => {
                           onClick={() => updateUserRole(profile.id, 'admin')}
                         >
                           Make Admin
-                        </Button>
-                      )}
-                      {profile.role !== 'provider' && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => updateUserRole(profile.id, 'provider')}
-                        >
-                          Make Provider
                         </Button>
                       )}
                     </div>
