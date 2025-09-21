@@ -15,6 +15,7 @@ import ProvidersManagement from "./pages/admin/ProvidersManagement";
 import ContentManagement from "./pages/admin/ContentManagement";
 import ExperienceManagement from "./pages/admin/ExperienceManagement";
 import UserManagement from "./pages/admin/UserManagement";
+import BookingsManagement from "./pages/admin/BookingsManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
                 <Route path="experiences" element={<ExperienceManagement />} />
                 <Route path="users" element={<UserManagement />} />
                 <Route path="providers" element={<ProvidersManagement />} />
+                <Route path="bookings" element={<BookingsManagement />} />
                 <Route path="analytics" element={<AdminAnalytics />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
